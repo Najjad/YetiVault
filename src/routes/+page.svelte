@@ -5,7 +5,7 @@
 <h1>MongoDB Atlas + SvelteKit</h1>
 
 <p>
-	Le code <a
+	code <a
 		href="https://github.com/Najjad/YetiVault"
 		target="_blank">GitHub</a
 	>.

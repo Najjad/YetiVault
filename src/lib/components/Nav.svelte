@@ -26,6 +26,11 @@
 			protected: true
 		},
 		{
+			path: "/password",
+			text: "Password Editor",
+			protected: true
+		},
+		{
 			path: "/register",
 			text: "Register",
 			protected: false

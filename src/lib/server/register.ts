@@ -6,7 +6,8 @@ import { email_regexp } from "./utils";
 export async function register_user(
 	email: string,
 	password: string,
-	name: string
+	name: string,
+	masterpass: string
 ): Promise<{ error: string }> {
 	const email_error = await verify_email(email);
 
@@ -28,11 +29,13 @@ export async function register_user(
 
 	const salt_rounds = 10;
 	const hashed_password = await bcrypt.hash(password, salt_rounds);
+	const hashed_master = await bcrypt.hash(masterpass, salt_rounds);
 
 	const user = new User_Model({
 		email,
 		password: hashed_password,
-		name
+		name,
+		masterpass: hashed_master
 	});
 
 	try {
@@ -67,6 +70,18 @@ function verify_password(password: string): string {
 	}
 
 	if (password.length < 8) {
+		return "Password must be at least 8 characters.";
+	}
+
+	return "";
+}
+
+function verify_master_password(masterpassword: string): string {
+	if (!masterpassword) {
+		return "Password is required.";
+	}
+
+	if (masterpassword.length < 8) {
 		return "Password must be at least 8 characters.";
 	}
 

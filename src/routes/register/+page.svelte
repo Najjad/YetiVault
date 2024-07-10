@@ -26,6 +26,10 @@
 		<input type="password" id="password_input" name="password" />
 	</div>
 	<div>
+		<label for="masterpass_input">Master Password</label>
+		<input type="password" id="masterpass_input" name="masterpass" />
+	</div>
+	<div>
 		<label for="name_input">Name</label>
 		<input
 			type="text"

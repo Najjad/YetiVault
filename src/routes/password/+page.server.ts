@@ -1,6 +1,6 @@
-import { add_password } from '../../lib/server/password';
+import { add_password, get_all_passwords } from '../../lib/server/password';
 import { fail } from '@sveltejs/kit';
-import type { Actions, RequestEvent } from '@sveltejs/kit';
+import type { Actions, RequestEvent, Load } from '@sveltejs/kit';
 
 export const actions: Actions = {
     default: async (event: RequestEvent) => {
@@ -22,4 +22,9 @@ export const actions: Actions = {
             return { email, message: "Password saved successfully!" };
         }
     }
+};
+
+export const load: Load = async () => {
+    const passwords = await get_all_passwords();
+    return { passwords };
 };

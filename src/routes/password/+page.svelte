@@ -1,13 +1,11 @@
 <script lang="ts">
-    import { invalidate } from '$app/navigation';
     import { onMount } from 'svelte';
-
     let email: string = '';
     let password: string = '';
     let error: string | null = null;
     let message: string | null = null;
 
-    export let data: any;
+    export let data: { passwords: { email: string, password: string, createdAt: string }[], error?: string, message?: string };
 
     onMount(() => {
         if (data.error) {
@@ -38,4 +36,14 @@
     {#if message}
         <p style="color: green;">{message}</p>
     {/if}
+
+    <h2>Saved Passwords</h2>
+    <ul>
+        {#each data.passwords as password}
+            <li>
+                <strong>Password:</strong> {password.password} <br>
+                <strong>Created At:</strong> {new Date(password.createdAt).toLocaleString()}
+            </li>
+        {/each}
+    </ul>
 </main>

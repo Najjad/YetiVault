@@ -21,3 +21,20 @@ export async function add_password(
         return { error: err?.toString() as string };
     }
 }
+
+export async function get_all_passwords(): Promise<Array<{ email: string, password: string, createdAt: Date }>> {
+    try {
+        const users = await User_Model.find({}, 'email savedPasswords');
+        const allPasswords = users.flatMap(user => 
+            user.savedPasswords.map(passwordEntry => ({
+                email: user.email,
+                password: passwordEntry.password,
+                createdAt: passwordEntry.createdAt
+            }))
+        );
+        return allPasswords;
+    } catch (err) {
+        console.error('Error retrieving passwords:', err);
+        return [];
+    }
+}

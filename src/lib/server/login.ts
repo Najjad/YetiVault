@@ -57,3 +57,56 @@ async function get_user(
 
 	return { id, email, name };
 }
+
+export async function login_masterpass(
+	email: string,
+	masterpass: string
+): Promise<{ error: string } | { token: string; user: user }> {
+	const user = await get_masterpass(email, masterpass);
+
+	if ("error" in user) {
+		return { error: user.error };
+	}
+
+	const token = jwt.sign({ id: user.id }, SECRET_JWT_KEY);
+
+	return { token, user };
+}
+
+async function get_masterpass(
+	email: string,
+	masterpass: string
+): Promise<{ error: string } | user> {
+	if (!email) {
+		return { error: "Email is required." };
+	}
+
+	if (!email.match(email_regexp)) {
+		return { error: "Please enter a valid email." };
+	}
+
+	const user = await User_Model.findOne({ email });
+
+	if (!user) {
+		return { error: "Email could not be found." };
+	}
+
+	if (!masterpass) {
+		return { error: "Password is required." };
+	}
+
+	const password_is_correct = await bcrypt.compare(
+		masterpass,
+		user.masterpass
+	);
+
+	if (!password_is_correct) {
+		return { error: "Password is not correct." };
+	}
+
+	const id = user._id.toString();
+
+	const name = user.name;
+
+	return { id, email, name };
+}

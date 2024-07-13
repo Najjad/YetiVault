@@ -15,9 +15,20 @@
             message = data.message;
         }
     });
+
+    let visible = false;
+
+    function toggleVissible() {
+        visible = !visible
+    }
 </script>
 
 <main>
+    <button on:click={toggleVissible}>
+        Hide
+    </button>
+
+    {#if visible}
     <h1>Password Management</h1>
     <form method="POST">
         <div>
@@ -46,4 +57,5 @@
             </li>
         {/each}
     </ul>
+    {/if}
 </main>

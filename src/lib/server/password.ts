@@ -1,14 +1,14 @@
 import { User_Model } from "./models";
 
 export async function add_password(
-    email: string, //change this in the future to change from email to something else
+    userTag: string, //change this in the future to change from email to something else
     savedPasswords: Array<{ password: string, createdAt: Date }>
 ): Promise<{ error: string }> {
     try {
-        const user = await User_Model.findOne({ email });
+        const user = await User_Model.findOne({ userTag });
         
         if (!user) {
-            return { error: 'User not found.' };
+            return { error: 'userTag not found.' };
         }
 
         // Append new passwords to the user's savedPasswords array
@@ -39,9 +39,9 @@ export async function get_all_passwords(): Promise<Array<{ email: string, passwo
     }
 }
 
-export async function get_user_passwords(email: string) {
+export async function get_user_passwords(userTag: string) {
     try {
-        const user = await User_Model.findOne({ email });
+        const user = await User_Model.findOne({ userTag });
         if (!user) {
             return { error: "User not found" };
         }

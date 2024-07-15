@@ -36,13 +36,13 @@ export const actions: Actions = {
 
 export const load: PageServerLoad = async (event) => {
     const cookies = event.cookies;
-    const email = cookies.get('email');
+    const userTag = cookies.get('userTag');
 
-    if (!email) {
+    if (!userTag) {
         return { passwords: [], error: "User not logged in" };
     }
 
-    const result = await get_user_passwords(email);
+    const result = await get_user_passwords(userTag);
 
     if ('error' in result) {
         return { passwords: [], error: result.error };

@@ -4,6 +4,7 @@
     let password: string = '';
     let error: string | null = null;
     let message: string | null = null;
+    let masterpass: string;
 
     export let data: { passwords: { email: string, password: string, createdAt: string }[], error?: string, message?: string };
 
@@ -16,15 +17,20 @@
         }
     });
 
-    let visible = false;
+    let visible = true;
 
-    function toggleVissible() {
-        visible = !visible
+    function toggleVisible() {
+        visible = !visible;
     }
+
+    import { enhance } from "$app/forms";
+	import type { ActionData } from "./$types";
+
+	//export let form: ActionData;
 </script>
 
 <main>
-    <button on:click={toggleVissible}>
+    <button on:click={toggleVisible}>
         Hide
     </button>
 

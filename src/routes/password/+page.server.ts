@@ -1,8 +1,13 @@
-import { add_password, get_all_passwords } from '../../lib/server/password';
+import { add_password, get_user_passwords } from '../../lib/server/password';
 import { fail } from '@sveltejs/kit';
 import type { Actions, RequestEvent, Load } from '@sveltejs/kit';
 import { login_masterpass } from "$lib/server/login";
-import { cookie_options } from "$lib/server/utils";
+import type { PageServerLoad } from './$types';
+
+interface PasswordEntry {
+    password: string;
+    createdAt: string; // change to string for serialization
+}
 
 export const actions: Actions = {
     default: async (event: RequestEvent) => {
@@ -29,7 +34,24 @@ export const actions: Actions = {
     }
 };
 
-export const load: Load = async () => {
-    const passwords = await get_all_passwords();
+export const load: PageServerLoad = async (event) => {
+    const cookies = event.cookies;
+    const email = cookies.get('email');
+
+    if (!email) {
+        return { passwords: [], error: "User not logged in" };
+    }
+
+    const result = await get_user_passwords(email);
+
+    if ('error' in result) {
+        return { passwords: [], error: result.error };
+    }
+
+    const passwords = (result as any).map((pwd: any) => ({
+        password: pwd.password,
+        createdAt: pwd.createdAt.toISOString() // Convert Date to string
+    }));
+
     return { passwords };
 };

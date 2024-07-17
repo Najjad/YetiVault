@@ -3,7 +3,8 @@ import type { Actions } from "./$types";
 import { login_user } from "$lib/server/login";
 import { cookie_options } from "$lib/server/utils";
 import { userTagVar } from '$lib/server/userTag';
-
+import { User_Model } from "$lib/server/models";
+import crypto from 'crypto';
 
 export const actions: Actions = {
 	default: async (event) => {
@@ -24,15 +25,28 @@ export const actions: Actions = {
 			event.cookies.set("auth-token", token, cookie_options);
 			event.cookies.set("email", user.email, cookie_options);
 			event.cookies.set("name", user.name, cookie_options);
-			event.cookies.set("userTag", userTagVar, cookie_options);
+
+			const existingUserTag = event.cookies.get("userTag");
+
+			if (existingUserTag) {
+				event.cookies.delete("userTag", cookie_options);
+				const userFromDB = await User_Model.findOne({ email: user.email });
+				if (userFromDB && userFromDB.userTag) {
+					const userTag = userFromDB.userTag;
+					event.cookies.set("userTag", userTag, cookie_options);
+				} else {
+					// Handle case where userFromDB is null or userTag is missing
+					const userTag = crypto.randomBytes(64).toString('hex');
+					event.cookies.set("userTag", userTag, cookie_options);
+					await User_Model.updateOne({ email: user.email }, { userTag });
+				}
+			} else {
+				const userTag = crypto.randomBytes(64).toString('hex');
+				event.cookies.set("userTag", userTag, cookie_options);
+				await User_Model.updateOne({ email: user.email }, { userTag });
+			}
 
 			return { email, user };
 		}
 	}
 };
-
-/*
-import crypto from 'crypto';
-const userTag = crypto.randomBytes(64).toString('hex');
-event.cookies.set("userTag", userTag, cookie_options); //use to login
-*/

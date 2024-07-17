@@ -13,8 +13,9 @@
 
 <h1>Features: </h1>
 <ul>
-	<li>Ability to add, edit, and delete passwords</li>
+	<li>To do:</li>
+	<li>Lock password screen with masterpass</li>
+	<li>edit and delete passwords</li>
 	<li>Dashboard with the ability to check if your passwords are compromised</li>
 	<li>All data is encrypted</li>
-	<li></li>
 </ul>

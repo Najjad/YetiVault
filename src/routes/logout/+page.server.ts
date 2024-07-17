@@ -6,6 +6,7 @@ export const actions: Actions = {
 		event.cookies.delete("auth-token");
 		event.cookies.delete("email");
 		event.cookies.delete("name");
+		event.cookies.delete("userTag");
 		throw redirect(301, "/");
 	}
 };

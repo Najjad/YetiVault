@@ -1,7 +1,7 @@
 import { User_Model } from "./models";
 
 export async function add_password(
-    userTag: string, //change this in the future to change from email to something else
+    userTag: string, 
     savedPasswords: Array<{ password: string, createdAt: Date }>
 ): Promise<{ error: string }> {
     try {

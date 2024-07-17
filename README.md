@@ -6,13 +6,21 @@ Hello and welcome to the amazing YetiVault password manager!
 This is my Computer Science HL Internal Assesment
 
 When completed, I plan to turn this project into a legitimate service
-## Features for the future
+
+## Features implemented NOW
 
 - Register/Login auth.
+- Add passwords
+- Fun mascot
+- Dynamic user token for login
+
+
+## Features for the future
+
 - Encrypted password saving
-- Add, edit, delete saved passwords
+- edit, delete saved passwords
 - Dashboard with HaveIBeenPwned API
-- Fun mascot and UI
+- UI
 
 ## To Do
 

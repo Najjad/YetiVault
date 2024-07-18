@@ -61,6 +61,11 @@
             <label for="app-check">App</label>
             <input type="checkbox" id="app-check" name="app-check" bind:checked={app_check} on:change={() => handleCheckboxChange('app')}>
         </div>
+
+        <input type="hidden" name="email-check" value={email_check ? "true" : "false"}>
+        <input type="hidden" name="website-check" value={website_check ? "true" : "false"}>
+        <input type="hidden" name="app-check" value={app_check ? "true" : "false"}>
+
         {#if website_check}
         <div>
             <label for="website">Enter Website</label>

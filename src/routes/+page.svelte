@@ -19,3 +19,7 @@
 	<li>Dashboard with the ability to check if your passwords are compromised</li>
 	<li>All data is encrypted</li>
 </ul>
+
+to do:
+
+fix getting the checkboxes into the password server file

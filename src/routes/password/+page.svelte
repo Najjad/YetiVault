@@ -1,15 +1,18 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     let email: string = '';
-    let email_check: boolean = false;
-    let website_check: boolean = false;
     let password: string = '';
-    let website: string = '';
     let description: string = '';
-    let app_check: boolean = false;
+
+    let website: string = '';
     let app: string = '';
+
     let error: string | null = null;
     let message: string | null = null;
+
+    let email_check: boolean = false;
+    let website_check: boolean = false;
+    let app_check: boolean = false;
 
     export let data: { passwords: { email: string, password: string, createdAt: string }[], error?: string, message?: string };
 
@@ -51,21 +54,17 @@
     <form method="POST">
         <div class="checkbox-container">
             <label for="email-check">Email</label>
-            <input type="checkbox" id="email-check" name="email-check" bind:checked={email_check} on:change={() => handleCheckboxChange('email')}>
+            <input type="checkbox" id="email-check" name="email-check" bind:checked={email_check} value="true" on:change={() => handleCheckboxChange('email')}>
         </div>
         <div class="checkbox-container">
             <label for="website-check">Website</label>
-            <input type="checkbox" id="website-check" name="website-check" bind:checked={website_check} on:change={() => handleCheckboxChange('website')}>
+            <input type="checkbox" id="website-check" name="website-check" bind:checked={website_check} value="true" on:change={() => handleCheckboxChange('website')}>
         </div>
         <div class="checkbox-container">
             <label for="app-check">App</label>
-            <input type="checkbox" id="app-check" name="app-check" bind:checked={app_check} on:change={() => handleCheckboxChange('app')}>
+            <input type="checkbox" id="app-check" name="app-check" bind:checked={app_check} value="true" on:change={() => handleCheckboxChange('app')}>
         </div>
-
-        <input type="hidden" name="email-check" value={email_check ? "true" : "false"}>
-        <input type="hidden" name="website-check" value={website_check ? "true" : "false"}>
-        <input type="hidden" name="app-check" value={app_check ? "true" : "false"}>
-
+    
         {#if website_check}
         <div>
             <label for="website">Enter Website</label>
@@ -94,6 +93,8 @@
         </div>
         <button type="submit">Submit</button>
     </form>
+    
+    
     {#if error}
         <p style="color: red;">{error}</p>
     {/if}

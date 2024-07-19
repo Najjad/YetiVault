@@ -26,26 +26,36 @@ export const actions: Actions = {
         let website_check = data.get("website-check") === "true";
         let app_check = data.get("app-check") === "true";
         let email_check = data.get("email-check") === "true";
-
+        
+        console.log("website_check:", website_check);
+        console.log("app_check:", app_check);
+        console.log("email_check:", email_check);
+        
         if (website_check) {
             const website = (data.get("website") as string)?.trim();
-            savedPasswords.push({ password, createdAt: new Date(), website });
-        }
-        else if (app_check) {
+            savedPasswords.push({
+                password,
+                createdAt: new Date(),
+                service: { name: website, type: 'website' }
+            });
+        } else if (app_check) {
             const app = (data.get("app") as string)?.trim();
-            savedPasswords.push({ password, createdAt: new Date(), app });
-        }
-        else if (email_check) {
+            savedPasswords.push({
+                password,
+                createdAt: new Date(),
+                service: { name: app, type: 'app' }
+            });
+        } else if (email_check) {
             const email = (data.get("email") as string)?.trim();
-            savedPasswords.push({ password, createdAt: new Date(), email });
+            savedPasswords.push({
+                password,
+                createdAt: new Date(),
+                service: { name: email, type: 'email' }
+            });
+        } else {
+            console.log("None of the checkboxes were checked.");
         }
-        else
-        {
-            console.log("none of them worked")
-            const app = (data.get("app") as string)?.trim();
-            savedPasswords.push({ password, createdAt: new Date(), service: { name: app, type: 'app' } });
-        }
-
+        
         const { error } = await add_password(userTag, savedPasswords);
 
         if (error) {
@@ -77,28 +87,3 @@ export const load: PageServerLoad = async (event) => {
 
     return { passwords };
 };
-
-
-        /*
-        doesn't work:
-        const website_check = (data.get("website_check") as boolean)
-        const app_check = (data.get("masterpass") as string)?.trim();
-        const email_check = (data.get("masterpass") as string)?.trim();
-
-
-        if (website_check)
-        {
-            const website = (data.get("website") as string)?.trim();
-            savedPasswords.push({ password, createdAt: new Date(), website });
-        }
-        else if (app_check)
-        {
-            const app = (data.get("app") as string)?.trim();
-            savedPasswords.push({ password, createdAt: new Date(), app });
-        }
-        else if (email_check)
-        {
-            const email = (data.get("email") as string)?.trim();
-            savedPasswords.push({ password, createdAt: new Date(), email });
-        }
-         */

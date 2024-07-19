@@ -1,14 +1,8 @@
 import { add_password, get_user_passwords } from '../../lib/server/password';
 import { fail } from '@sveltejs/kit';
 import type { Actions, RequestEvent, Load } from '@sveltejs/kit';
-import { login_masterpass } from "$lib/server/login";
 import type { PageServerLoad } from './$types';
 import { cookie_options } from "$lib/server/utils";
-
-interface PasswordEntry {
-    password: string;
-    createdAt: string; // change to string for serialization
-}
 
 export const actions: Actions = {
     default: async (event: RequestEvent) => {
@@ -32,27 +26,30 @@ export const actions: Actions = {
         console.log("email_check:", email_check);
         
         if (website_check) {
-            const website = (data.get("website") as string)?.trim();
+            const website = (data.get("website") as string)?.trim(); //set some variable equal to this, use favgetting function to get link, display link in sveltefile and it should auto become an image
             savedPasswords.push({
                 password,
                 createdAt: new Date(),
                 service: { name: website, type: 'website' }
             });
-        } else if (app_check) {
+        } 
+        else if (app_check) {
             const app = (data.get("app") as string)?.trim();
             savedPasswords.push({
                 password,
                 createdAt: new Date(),
                 service: { name: app, type: 'app' }
             });
-        } else if (email_check) {
+        } 
+        else if (email_check) {
             const email = (data.get("email") as string)?.trim();
             savedPasswords.push({
                 password,
                 createdAt: new Date(),
                 service: { name: email, type: 'email' }
             });
-        } else {
+        } 
+        else {
             console.log("None of the checkboxes were checked.");
         }
         
@@ -63,12 +60,12 @@ export const actions: Actions = {
         } else {
             return { userTag, message: "Password saved successfully!" };
         }
+       
     }
 };
 
 export const load: PageServerLoad = async (event) => {
-    const cookies = event.cookies;
-    const userTag = cookies.get('userTag');
+    const userTag = event.cookies.get('userTag');
 
     if (!userTag) {
         return { passwords: [], error: "User not logged in" };
@@ -82,7 +79,7 @@ export const load: PageServerLoad = async (event) => {
 
     const passwords = (result as any).map((pwd: any) => ({
         password: pwd.password,
-        createdAt: new Date(pwd.createdAt).toISOString() // Convert Date to string
+        createdAt: new Date(pwd.createdAt).toISOString()
     }));
 
     return { passwords };

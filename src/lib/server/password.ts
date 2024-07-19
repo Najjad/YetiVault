@@ -51,3 +51,8 @@ export async function get_user_passwords(userTag: string) {
         return { error};
     }
 }
+
+export async function favgetting(website: string) 
+{
+    return 'https://s2.googleusercontent.com/s2/favicons?domain_url=https://' + website
+}

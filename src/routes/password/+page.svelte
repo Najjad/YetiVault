@@ -40,7 +40,13 @@
 
 <style>
     .checkbox-container {
-        text-align: left;
+        display: flex;
+        align-items: center;
+        vertical-align: middle;
+    }
+    .checkbox-container input[type="checkbox"] {
+        margin-right: 300px; /* Adjust this value as needed */
+        vertical-align: middle;
     }
 </style>
 

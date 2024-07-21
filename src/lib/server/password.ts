@@ -56,3 +56,38 @@ export async function favgetting(website: string)
 {
     return 'https://s2.googleusercontent.com/s2/favicons?domain_url=https://' + website
 }
+
+export async function change_service_email(
+    userTag: string,
+    serviceName: string,
+    newEmail: string
+): Promise<{ error: string } | { email: string }> {
+
+    // Find the user by userTag
+    const user = await User_Model.findOne({ userTag });
+
+    if (!user) {
+        return { error: "User could not be found." };
+    }
+
+    // Find the service in the savedPasswords array and update its email
+    let serviceUpdated = false;
+    for (let i = 0; i < user.savedPasswords.length; i++) {
+        if (user.savedPasswords[i].service.name === serviceName) {
+            user.savedPasswords[i].service.name = newEmail;
+            serviceUpdated = true;
+            break;
+        }
+    }
+
+    if (!serviceUpdated) {
+        return { error: "Service could not be found." };
+    }
+
+    try {
+        await user.save();
+        return { email: newEmail };
+    } catch (err) {
+        return { error: err?.toString() as string };
+    }
+}

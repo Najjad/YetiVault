@@ -15,7 +15,7 @@
     let app_check: boolean = false;
 
     export let data: { passwords: { email: string, password: string, createdAt: string }[], error?: string, message?: string };
-
+    // to do, add service to this, display service name above each password box thing
     onMount(() => {
         if (data.error) {
             error = data.error;
@@ -36,6 +36,12 @@
         website_check = type === 'website';
         app_check = type === 'app';
     }
+
+    let passwordsVisibility = data.passwords.map(() => true);
+
+    function togglePasswordVisibility(index: number) {
+        passwordsVisibility[index] = !passwordsVisibility[index];
+    }
 </script>
 
 <style>
@@ -47,6 +53,16 @@
     .checkbox-container input[type="checkbox"] {
         margin-right: 300px; /* Adjust this value as needed */
         vertical-align: middle;
+    }
+    .password-item {
+        margin-bottom: 1rem;
+    }
+    .password-item label {
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    .password-item input[type="text"] {
+        margin-right: 1rem;
     }
 </style>
 
@@ -100,7 +116,6 @@
         <button type="submit">Submit</button>
     </form>
     
-    
     {#if error}
         <p style="color: red;">{error}</p>
     {/if}
@@ -109,13 +124,14 @@
     {/if}
 
     <h2>Saved Passwords</h2>
-    <ul>
-        {#each data.passwords as password}
-            <li>
-                <strong>Password:</strong> {password.password} <br>
-                <strong>Created At:</strong> {new Date(password.createdAt).toLocaleString()}
-            </li>
-        {/each}
-    </ul>
+    {#each data.passwords as password, index}
+    <div class="password-item">
+        <label>Password</label>
+        <input type={passwordsVisibility[index] ? "password" : "text"} value={password.password} readonly>
+        <button type="button" on:click={() => togglePasswordVisibility(index)}>
+            {passwordsVisibility[index] ? "Show" : "Hide"}
+        </button>
+    </div>
+    {/each}
     {/if}
 </main>

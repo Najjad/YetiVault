@@ -1,4 +1,5 @@
-import { add_password, get_user_passwords } from '../../lib/server/password';
+import { add_password, get_user_passwords, change_service_email } from '../../lib/server/password';
+//import { favgetting } from '../../lib/server/password';
 import { fail } from '@sveltejs/kit';
 import type { Actions, RequestEvent, Load } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
@@ -20,10 +21,6 @@ export const actions: Actions = {
         let website_check = data.get("website-check") === "true";
         let app_check = data.get("app-check") === "true";
         let email_check = data.get("email-check") === "true";
-        
-        console.log("website_check:", website_check);
-        console.log("app_check:", app_check);
-        console.log("email_check:", email_check);
         
         if (website_check) {
             const website = (data.get("website") as string)?.trim(); //set some variable equal to this, use favgetting function to get link, display link in sveltefile and it should auto become an image
@@ -81,6 +78,8 @@ export const load: PageServerLoad = async (event) => {
         password: pwd.password,
         createdAt: new Date(pwd.createdAt).toISOString()
     }));
+
+    //let favICO = await favgetting("youtube.com")
 
     return { passwords };
 };

@@ -5,12 +5,12 @@
 }
 
 :root {
-	--accent-color: rgb(211, 59, 3);
+	--accent-color: rgb(3, 197, 211);
 	--highlight-color: yellow;
 	--error-color: rgb(230, 20, 20);
-	--background-color: #131317;
-	--nav-color: #202028;
-	--font-color: #fff;
+	--background-color: #ffffff;
+	--nav-color: rgb(3, 124, 211);
+	--font-color: #000000;
 	--label-color: #aaa;
 }
 

@@ -54,7 +54,7 @@ export async function get_user_passwords(userTag: string) {
 
 export async function favgetting(website: string) 
 {
-    return 'https://s2.googleusercontent.com/s2/favicons?domain_url=https://' + website
+    return 'https://s2.googleusercontent.com/s2/favicons?domain_url=' + website
 }
 
 export async function change_service_email(

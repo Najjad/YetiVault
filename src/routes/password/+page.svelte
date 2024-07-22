@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     let email: string = '';
     let password: string = '';
+    let service: Array<String>;
     let description: string = '';
 
     let website: string = '';
@@ -14,8 +15,8 @@
     let website_check: boolean = false;
     let app_check: boolean = false;
 
-    export let data: { passwords: { email: string, password: string, createdAt: string }[], error?: string, message?: string };
-    // to do, add service to this, display service name above each password box thing
+    export let data: { passwords: { email: string, password: string, createdAt: string, service: { name: string, type: string }, favicon?: string }[], error?: string, message?: string };
+    
     onMount(() => {
         if (data.error) {
             error = data.error;
@@ -64,11 +65,14 @@
     .password-item input[type="text"] {
         margin-right: 1rem;
     }
+    .favicon {
+        margin-right: 5px;
+    }
 </style>
 
 <main>
     <button on:click={toggleVisible}>
-        Hide
+        {visible ? "Hide" : "Show"}
     </button>
 
     {#if visible}
@@ -126,7 +130,12 @@
     <h2>Saved Passwords</h2>
     {#each data.passwords as password, index}
     <div class="password-item">
-        <label>Password</label>
+        <label>
+            {#if password.service.type === 'website' && password.favicon}
+                <img src={password.favicon} alt="Favicon" class="favicon">
+            {/if}
+            {password.service.name} ({password.service.type})
+        </label>
         <input type={passwordsVisibility[index] ? "password" : "text"} value={password.password} readonly>
         <button type="button" on:click={() => togglePasswordVisibility(index)}>
             {passwordsVisibility[index] ? "Show" : "Hide"}

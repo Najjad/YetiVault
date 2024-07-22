@@ -1,9 +1,9 @@
-import { add_password, get_user_passwords, change_service_email } from '../../lib/server/password';
-//import { favgetting } from '../../lib/server/password';
+import { add_password, get_user_passwords } from '../../lib/server/password';
 import { fail } from '@sveltejs/kit';
 import type { Actions, RequestEvent, Load } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { cookie_options } from "$lib/server/utils";
+import { favgetting } from '../../lib/server/password';
 
 export const actions: Actions = {
     default: async (event: RequestEvent) => {
@@ -12,18 +12,17 @@ export const actions: Actions = {
         const userTag = event.cookies.get("userTag")?.toString();
         const password = (data.get("password") as string)?.trim();
 
-        let savedPasswords = [];
-
         if (!userTag || !password) {
             return fail(400, { error: "userTag and password are required." });
         }
 
+        let savedPasswords = [];
         let website_check = data.get("website-check") === "true";
         let app_check = data.get("app-check") === "true";
         let email_check = data.get("email-check") === "true";
         
         if (website_check) {
-            const website = (data.get("website") as string)?.trim(); //set some variable equal to this, use favgetting function to get link, display link in sveltefile and it should auto become an image
+            const website = (data.get("website") as string)?.trim();
             savedPasswords.push({
                 password,
                 createdAt: new Date(),
@@ -57,7 +56,6 @@ export const actions: Actions = {
         } else {
             return { userTag, message: "Password saved successfully!" };
         }
-       
     }
 };
 
@@ -74,12 +72,25 @@ export const load: PageServerLoad = async (event) => {
         return { passwords: [], error: result.error };
     }
 
-    const passwords = (result as any).map((pwd: any) => ({
-        password: pwd.password,
-        createdAt: new Date(pwd.createdAt).toISOString()
-    }));
+    // Use Promise.all to handle asynchronous favgetting calls
+    const passwords = await Promise.all(result.map(async (pwd: any) => {
+        let favicon = null;
 
-    //let favICO = await favgetting("youtube.com")
+        if (pwd.service.type === 'website') {
+            try {
+                favicon = await favgetting(pwd.service.name);
+            } catch (error) {
+                console.error(`Failed to fetch favicon for ${pwd.service.name}:`, error);
+            }
+        }
+
+        return {
+            password: pwd.password,
+            createdAt: new Date(pwd.createdAt).toISOString(),
+            service: { name: pwd.service.name, type: pwd.service.type },
+            favicon // Include the favicon in the response
+        };
+    }));
 
     return { passwords };
 };

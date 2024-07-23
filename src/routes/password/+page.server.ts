@@ -4,6 +4,7 @@ import type { Actions, RequestEvent, Load } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { cookie_options } from "$lib/server/utils";
 import { favgetting } from '../../lib/server/password';
+import { login_masterpass } from '$lib/server/login';
 
 export const actions: Actions = {
     default: async (event: RequestEvent) => {
@@ -11,6 +12,9 @@ export const actions: Actions = {
 
         const userTag = event.cookies.get("userTag")?.toString();
         const password = (data.get("password") as string)?.trim();
+
+        //const user_data = await login_masterpass();
+        //then create an input form for the masterpass, feed it to this, change some value to true, done
 
         if (!userTag || !password) {
             return fail(400, { error: "userTag and password are required." });
@@ -72,7 +76,6 @@ export const load: PageServerLoad = async (event) => {
         return { passwords: [], error: result.error };
     }
 
-    // Use Promise.all to handle asynchronous favgetting calls
     const passwords = await Promise.all(result.map(async (pwd: any) => {
         let favicon = null;
 
@@ -88,7 +91,7 @@ export const load: PageServerLoad = async (event) => {
             password: pwd.password,
             createdAt: new Date(pwd.createdAt).toISOString(),
             service: { name: pwd.service.name, type: pwd.service.type },
-            favicon // Include the favicon in the response
+            favicon 
         };
     }));
 

@@ -7,14 +7,11 @@ import { favgetting } from '../../lib/server/password';
 import { login_masterpass } from '$lib/server/login';
 
 export const actions: Actions = {
-    default: async (event: RequestEvent) => {
+    passForm: async (event: RequestEvent) => {
         const data = await event.request.formData();
 
         const userTag = event.cookies.get("userTag")?.toString();
         const password = (data.get("password") as string)?.trim();
-
-        //const user_data = await login_masterpass();
-        //then create an input form for the masterpass, feed it to this, change some value to true, done
 
         if (!userTag || !password) {
             return fail(400, { error: "userTag and password are required." });
@@ -60,6 +57,34 @@ export const actions: Actions = {
         } else {
             return { userTag, message: "Password saved successfully!" };
         }
+    },
+    
+    masterForm: async (event: RequestEvent) => {
+        const data = await event.request.formData();
+        const masterpass = data.get("master-input")?.toString();
+        const email = event.cookies.get("email");
+
+        if (!email || !masterpass) {
+            return fail(400, { error: "email and masterpass are required." });
+        }
+
+        const user_data = await login_masterpass(email, masterpass);
+
+        if ('error' in user_data) {
+            return fail(401, { error: user_data.error });
+        }
+
+        let isAuthenticated = false;
+
+        if ('token' in user_data) {
+            isAuthenticated = true;
+            console.log("User authenticated:", user_data);
+        } else {
+            console.log("Authentication failed:", user_data);
+        }
+
+        console.log(isAuthenticated)
+        return { isAuthenticated, user_data };
     }
 };
 

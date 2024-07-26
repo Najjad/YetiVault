@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
+
     let email: string = '';
     let password: string = '';
     let service: Array<String>;
@@ -15,14 +16,25 @@
     let website_check: boolean = false;
     let app_check: boolean = false;
 
-    export let data: { passwords: { email: string, password: string, createdAt: string, service: { name: string, type: string }, favicon?: string }[], error?: string, message?: string };
-    
+    export let data: {
+        passwords: { email: string, password: string, createdAt: string, service: { name: string, type: string }, favicon?: string }[],
+        error?: string,
+        message?: string
+    };
+
+    export let isAuthenticated: boolean | undefined; // Adjust this to handle the expected type
+
     onMount(() => {
         if (data.error) {
             error = data.error;
         }
+        
         if (data.message) {
             message = data.message;
+        }
+
+        if (isAuthenticated !== undefined) {
+            console.log("Is Authenticated:", isAuthenticated);
         }
     });
 
@@ -44,6 +56,7 @@
         passwordsVisibility[index] = !passwordsVisibility[index];
     }
 </script>
+
 
 <style>
     .checkbox-container {
@@ -75,9 +88,16 @@
         {visible ? "Hide" : "Show"}
     </button>
 
+    <form method="POST" action="?/masterForm">
+        <div>
+            <label for="master-input">Input Masterpassword</label>
+            <input type="password" id="master-input" name="master-input">
+        </div>
+    </form>
+
     {#if visible}
     <h1>Password Management</h1>
-    <form method="POST">
+    <form method="POST" action="?/passForm">
         <div class="checkbox-container">
             <label for="email-check">Email</label>
             <input type="checkbox" id="email-check" name="email-check" bind:checked={email_check} value="true" on:change={() => handleCheckboxChange('email')}>

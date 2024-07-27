@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
+    import type { ActionData } from './$types';
 
     let email: string = '';
     let password: string = '';
@@ -16,13 +17,16 @@
     let website_check: boolean = false;
     let app_check: boolean = false;
 
+    export let form: ActionData;
+
+    //console.log(form?.isAuthenticated)
+
     export let data: {
         passwords: { email: string, password: string, createdAt: string, service: { name: string, type: string }, favicon?: string }[],
         error?: string,
         message?: string
     };
 
-    export let isAuthenticated: boolean | undefined; // Adjust this to handle the expected type
 
     onMount(() => {
         if (data.error) {
@@ -32,13 +36,9 @@
         if (data.message) {
             message = data.message;
         }
-
-        if (isAuthenticated !== undefined) {
-            console.log("Is Authenticated:", isAuthenticated);
-        }
     });
 
-    let visible = true;
+    let visible = false;
 
     function toggleVisible() {
         visible = !visible;
@@ -84,16 +84,17 @@
 </style>
 
 <main>
-    <button on:click={toggleVisible}>
-        {visible ? "Hide" : "Show"}
-    </button>
-
     <form method="POST" action="?/masterForm">
         <div>
             <label for="master-input">Input Masterpassword</label>
             <input type="password" id="master-input" name="master-input">
         </div>
     </form>
+    {#if form?.isAuthenticated}
+	 {toggleVisible()}
+    {:else}
+        <p>NOT AUTHENTICATED</p>
+    {/if}
 
     {#if visible}
     <h1>Password Management</h1>

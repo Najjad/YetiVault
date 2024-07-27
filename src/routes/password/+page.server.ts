@@ -78,12 +78,11 @@ export const actions: Actions = {
 
         if ('token' in user_data) {
             isAuthenticated = true;
-            console.log("User authenticated:", user_data);
+            console.log("User authenticated:", user_data, isAuthenticated);
         } else {
-            console.log("Authentication failed:", user_data);
+            console.log("Authentication failed:", user_data, isAuthenticated);
         }
 
-        console.log(isAuthenticated)
         return { isAuthenticated, user_data };
     }
 };
@@ -116,7 +115,7 @@ export const load: PageServerLoad = async (event) => {
             password: pwd.password,
             createdAt: new Date(pwd.createdAt).toISOString(),
             service: { name: pwd.service.name, type: pwd.service.type },
-            favicon 
+            favicon
         };
     }));
 

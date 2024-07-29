@@ -1,16 +1,19 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import type { ActionData } from "./$types"
 
+    export let form: ActionData;
     export let data: PageData;
     
-    let showBreachInfo = data.breachData.success;
+    let showBreachInfo: boolean;
+    if(form?.breachData)
+    {
+        showBreachInfo = true;
+    }
 
     function ignoreBreachInfo() {
         showBreachInfo = false;
     }
-
-    const successful = data.breachData.success;
-    console.log(successful);
 </script>
 
 <svelte:head>
@@ -21,12 +24,45 @@
 
 <p>This is your dashboard, {data.name}.</p>
 
-{#if showBreachInfo}
+<div class="pass-generator">
+    <form method="POST" action="?/passGen">
+        <div>
+            <label for="length">Password length? (Max 70)</label>
+            <input type="number" id="length" name="length" min="5" max="70" required />
+        </div>
+        <button type="submit">Generate new password</button>
+    </form>
+
+    <div>
+        {#if form?.password}
+            <p>Generated Password: {form?.password}</p>
+        {/if}
+        {#if form?.error}
+            <p style="color: red;">{form?.error}</p>
+        {/if}
+    </div>
+</div>
+
+<div class="pass-date-check">
+    <form method="POST" action="?/passDate">
+
+    </form>
+</div>
+
+<div class="breach-checker">  
+    <p>Check if the email you're currently logged in with has appeared in a data breach</p>
+    <form method="POST" action="?/breachAction">
+        <div>
+            <button type="submit">Check Now</button>
+        </div>
+    </form>
+
+    {#if showBreachInfo}
     <div class="breach-alert">
         <h2>Your email has appeared in a data breach!</h2>
         <p>Please look below and confirm your email is safe on these sites:</p>
         <ul class="breach-list">
-            {#each data.breachData.sources as source}
+            {#each form?.breachData.sources as source}
                 <li>
                     <img src={source.favicon} alt="favicon" class="favicon" />
                     <strong>{source.name}</strong> - <em>{new Date(source.date).toLocaleDateString()}</em>
@@ -35,7 +71,7 @@
         </ul>
         <h2>These data fields have been compromised:</h2>
         <ul class="compromised-fields">
-            {#each data.breachData.fields as field}
+            {#each form?.breachData.fields as field}
                 <li>{field}</li>
             {/each}
         </ul>
@@ -48,9 +84,11 @@
 
         <button class="ignore-button" on:click={ignoreBreachInfo}>Ignore</button>
     </div>
-{:else}
-    <h2>Your email has not appeared in a known data breach, you're safe for now...</h2>
-{/if}
+    {:else if showBreachInfo == false}
+        <h2>Your email has not appeared in a known data breach, you're safe for now    ;)</h2>
+    {/if}
+</div>
+
 
 <img src="/YETIVAULTLOGO.png" alt="Yeti Vault Logo" />
 

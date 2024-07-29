@@ -44,11 +44,6 @@
 </script>
 
 <nav>
-	<div class="logo-container">
-		<a href="https://github.com/najjad/yetivault" target="_blank">
-			<img src="/YETIVAULTLOGO.png" alt="Yeti Vault Logo" />
-		</a>
-	</div>
 	<ul>
 		{#each links as link}
 			{#if link.path === "/" || logged_in === link.protected}
@@ -70,12 +65,13 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		position: relative; /* Added relative positioning for logo-container */
 	}
 
 	.logo-container {
 		position: absolute;
-		top: -1.23rem;
-		left: 3rem;
+		top: 0.1rem; /* Adjusted top position */
+		left: 1rem; /* Adjusted left position */
 	}
 
 	.logo-container img {
@@ -90,7 +86,7 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		gap: 1.25rem;
-		margin: 0 auto; /* Center the links */
+		margin: 0;
 		padding: 0;
 		width: 100%;
 	}
@@ -101,6 +97,23 @@
 
 	a {
 		text-decoration: none;
-		color: inherit;
+		color: var(--font-color);
+		padding: 0.5rem 1rem;
+		border: 2px solid var(--primary-color); /* Border for each nav item */
+		border-radius: 0.5rem;
+		transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+	}
+
+	a:hover,
+	a:focus {
+		background-color: var(--primary-color);
+		color: #fff;
+		border-color: var(--highlight-color);
+	}
+	
+	a[aria-current="page"] {
+		background-color: var(--highlight-color);
+		color: #fff;
+		border-color: var(--highlight-color);
 	}
 </style>

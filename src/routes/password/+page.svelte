@@ -19,8 +19,6 @@
 
     export let form: ActionData;
 
-    //console.log(form?.isAuthenticated)
-
     export let data: {
         passwords: { email: string, password: string, createdAt: string, service: { name: string, type: string }, favicon?: string }[],
         error?: string,

@@ -5,13 +5,14 @@
 }
 
 :root {
-	--accent-color: rgb(3, 197, 211);
-	--highlight-color: yellow;
-	--error-color: rgb(230, 20, 20);
-	--background-color: #ffffff;
-	--nav-color: rgb(3, 124, 211);
-	--font-color: #000000;
-	--label-color: #aaa;
+	--primary-color: #00e5ff; /* Neon blue */
+	--secondary-color: #b9fbc0; /* Neon mint green */
+	--highlight-color: #ff77ff; /* Neon pink */
+	--error-color: #ff4444; /* Bright red */
+	--background-color: #00274d; /* Deep navy blue for a cold, icy feel */
+	--nav-color: #00aaff; /* Bright sky blue */
+	--font-color: #ffffff; /* White text for high contrast */
+	--label-color: #e0f7fa; /* Very light cyan for labels */
 }
 
 body {
@@ -29,10 +30,11 @@ h1 {
 	line-height: 1.2;
 	font-weight: 400;
 	font-size: 2rem;
+	color: var(--font-color);
 }
 
 a {
-	color: inherit;
+	color: var(--primary-color);
 	text-underline-offset: 0.2rem;
 	outline: none;
 }
@@ -54,8 +56,10 @@ input {
 
 button {
 	padding: 0.4rem 0.8rem;
-	background-color: var(--accent-color);
+	background-color: var(--primary-color);
 	cursor: pointer;
+	color: var(--font-color);
+	box-shadow: 0 0 10px rgba(0, 229, 255, 0.7); /* Neon blue glow effect */
 }
 
 button:focus {
@@ -66,12 +70,14 @@ button:focus {
 input {
 	padding: 0.4rem;
 	width: 100%;
-	border: 0.1rem solid #555;
+	border: 0.1rem solid var(--primary-color);
+	background: #003d6b; /* Darker blue background for inputs */
+	color: var(--font-color);
 }
 
 input:focus {
-	border-color: var(--accent-color);
-	outline: 0.1rem solid var(--accent-color);
+	border-color: var(--highlight-color);
+	outline: 0.1rem solid var(--highlight-color);
 }
 
 form > * {
@@ -81,7 +87,7 @@ form > * {
 label {
 	display: block;
 	font-size: 1rem;
-	color: var(--labelc-color);
+	color: var(--label-color);
 	margin-bottom: 0.2rem;
 }
 

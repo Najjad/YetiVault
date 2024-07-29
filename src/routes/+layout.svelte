@@ -12,9 +12,11 @@
 </main>
 
 <style>
-	main {
-		max-width: 35rem;
-		margin-inline: auto;
-		padding-inline: 1rem;
-	}
+    main {
+        margin: 0 auto;
+        padding: 1rem;
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box; /* Ensures padding is included in width */
+    }
 </style>

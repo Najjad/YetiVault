@@ -45,8 +45,11 @@
 
 <div class="pass-date-check">
     <form method="POST" action="?/passDate">
-
+        <div>
+            <button type="submit">Check Now</button>
+        </div>
     </form>
+    <p>{form?.oldPass}</p>
 </div>
 
 <div class="breach-checker">  

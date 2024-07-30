@@ -1,4 +1,5 @@
 import { breachCheck } from "$lib/server/dashboard";
+import { dateChecker } from "$lib/server/dashboard";
 import type { PageServerLoad } from './$types';
 import { cookie_options } from "$lib/server/utils";
 import { favgetting } from "$lib/server/password";
@@ -37,7 +38,20 @@ export const actions = {
         
     },
 
-    passDate: async (event: RequestEvent) => {}
+    passDate: async (event: RequestEvent) => {
+        const userTag = event.cookies.get("userTag");
+    
+        if (!userTag) {
+            return { error: "User tag is undefined" };
+        }
+
+        try {
+            const oldPass = await dateChecker(userTag);
+            return JSON.stringify(oldPass);
+        } catch (error) {
+            return { error: "An error occurred while checking the dates" };
+        }
+    }
 };
 
 const generateRandomString = (length: number): string => {

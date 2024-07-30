@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import type { ActionData } from './$types';
+    import { enhance } from '$app/forms';
 
     let email: string = '';
     let password: string = '';
@@ -37,9 +38,10 @@
     });
 
     let visible = false;
-
+    let masterVisible = true;
     function toggleVisible() {
         visible = !visible;
+        masterVisible = !masterVisible;
     }
 
     function handleCheckboxChange(type: string) {
@@ -82,21 +84,21 @@
 </style>
 
 <main>
+    {#if masterVisible}
     <form method="POST" action="?/masterForm">
         <div>
             <label for="master-input">Input Masterpassword</label>
             <input type="password" id="master-input" name="master-input">
         </div>
     </form>
+    {/if}
     {#if form?.isAuthenticated}
 	 {toggleVisible()}
-    {:else}
-        <p>NOT AUTHENTICATED</p>
     {/if}
 
     {#if visible}
     <h1>Password Management</h1>
-    <form method="POST" action="?/passForm">
+    <form method="POST" action="?/passForm" use:enhance>
         <div class="checkbox-container">
             <label for="email-check">Email</label>
             <input type="checkbox" id="email-check" name="email-check" bind:checked={email_check} value="true" on:change={() => handleCheckboxChange('email')}>

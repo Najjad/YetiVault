@@ -14,6 +14,8 @@
     function ignoreBreachInfo() {
         showBreachInfo = false;
     }
+
+    let oldPass = form?.oldPass ? JSON.parse(form.oldPass) : [];
 </script>
 
 <svelte:head>
@@ -44,12 +46,21 @@
 </div>
 
 <div class="pass-date-check">
+    <h2>When was the last time you updated your passwords? Check if they need changing</h2>
     <form method="POST" action="?/passDate">
         <div>
-            <button type="submit">Check Now</button>
+            <button type="submit">Check now</button>
         </div>
     </form>
-    <p>{form?.oldPass}</p>
+    <ul>
+        {#each oldPass as passwordData}
+            <li>
+                <strong>Service:</strong> {passwordData.service?.name || 'No Service Info'} <br>
+                <strong>Created At:</strong> {Math.floor((new Date().getTime() - new Date(passwordData.createdAt).getTime()) / (1000 * 60 * 60 * 24))} day{Math.floor((new Date().getTime() - new Date(passwordData.createdAt).getTime()) / (1000 * 60 * 60 * 24)) === 1 ? '' : 's'} ago
+
+            </li>
+        {/each}
+    </ul>
 </div>
 
 <div class="breach-checker">  

@@ -41,16 +41,14 @@ export const actions = {
     passDate: async (event: RequestEvent) => {
         const userTag = event.cookies.get("userTag");
     
-        if (!userTag) {
-            return { error: "User tag is undefined" };
+        if (!userTag ) {
+            return { error: "Please provide a valid userTag." };
         }
-
-        try {
-            const oldPass = await dateChecker(userTag);
-            return JSON.stringify(oldPass);
-        } catch (error) {
-            return { error: "An error occurred while checking the dates" };
-        }
+    
+        const oldPass = JSON.stringify(await dateChecker(userTag));
+        //const oldPass = await dateChecker(userTag);
+        console.log(oldPass)
+        return { oldPass };
     }
 };
 

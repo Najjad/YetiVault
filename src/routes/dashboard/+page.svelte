@@ -15,6 +15,11 @@
         showBreachInfo = false;
     }
 
+    let hasChecked = false;
+    function checkPasswords () {
+        hasChecked = !hasChecked
+    }
+
     let oldPass = form?.oldPass ? JSON.parse(form.oldPass) : [];
 </script>
 
@@ -47,20 +52,28 @@
 
 <div class="pass-date-check">
     <h2>When was the last time you updated your passwords? Check if they need changing</h2>
-    <form method="POST" action="?/passDate">
+    <form method="POST" action="?/passDate" on:submit|preventDefault={checkPasswords}>
         <div>
             <button type="submit">Check now</button>
         </div>
     </form>
-    <ul>
-        {#each oldPass as passwordData}
-            <li>
-                <strong>Service:</strong> {passwordData.service?.name || 'No Service Info'} <br>
-                <strong>Created At:</strong> {Math.floor((new Date().getTime() - new Date(passwordData.createdAt).getTime()) / (1000 * 60 * 60 * 24))} day{Math.floor((new Date().getTime() - new Date(passwordData.createdAt).getTime()) / (1000 * 60 * 60 * 24)) === 1 ? '' : 's'} ago
-
-            </li>
-        {/each}
-    </ul>
+    
+    {#if hasChecked}
+        {#if oldPass.length > 0}
+            <h3> These passwords are older than 90 days!</h3>
+            <p> Cybersecurity experts suggest changing your passwords every 90 days to keep something something</p>
+            <ul>
+                {#each oldPass as passwordData}
+                    <li>
+                        <strong>Service:</strong> {passwordData.service?.name || 'No Service Info'} <br>
+                        <strong>Created:</strong> {Math.floor((new Date().getTime() - new Date(passwordData.createdAt).getTime()) / (1000 * 60 * 60 * 24))} day{Math.floor((new Date().getTime() - new Date(passwordData.createdAt).getTime()) / (1000 * 60 * 60 * 24)) === 1 ? '' : 's'} ago
+                    </li>
+                {/each}
+            </ul>
+        {:else}
+            <p class="no-issues">All passwords are safe</p>
+        {/if}
+    {/if}
 </div>
 
 <div class="breach-checker">  
@@ -103,10 +116,85 @@
     {/if}
 </div>
 
-
-<img src="/YETIVAULTLOGO.png" alt="Yeti Vault Logo" />
-
 <style>
+    .pass-date-check {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+    }
+
+    .pass-date-check h2 {
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .pass-date-check form {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .pass-date-check button {
+        background-color: #572b89;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .pass-date-check button:hover {
+        background-color: #451f6a;
+    }
+
+    .pass-date-check h3 {
+        font-size: 20px;
+        color: #b80e3c;
+        margin-bottom: 10px;
+    }
+
+    .pass-date-check p {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    .pass-date-check ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .pass-date-check li {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        color: #333; /* Set text color for li elements to black */
+    }
+
+    .pass-date-check li strong {
+        color: #333; /* Ensure strong text is black */
+    }
+
+    .pass-date-check li br {
+        margin-bottom: 5px;
+    }
+
+    .pass-date-check p.no-issues {
+        font-size: 18px;
+        color: #28a745;
+        text-align: center;
+    }
+    
     .breach-alert {
         background-color: #f8d7da;
         color: #721c24;

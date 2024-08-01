@@ -66,7 +66,7 @@ export async function dateChecker(userTag: string): Promise<any> {
 
         const savedPasswords = user.savedPasswords;
         const now = new Date();
-        const thresholdDate = new Date(now.setDate(now.getDate() - 3)); // set this threshold to whatev
+        const thresholdDate = new Date(now.setDate(now.getDate() - 90)); // set this threshold to whatev
 
         const bst = new BinarySearchTree();
 

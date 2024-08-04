@@ -22,6 +22,51 @@ export async function add_password(
     }
 }
 
+export async function change_password(
+    userTag: string,
+    password: string
+): Promise<{ error: string } | { userTag: string }> {
+    const user = await User_Model.findOne({ userTag });
+
+    if (!user) {
+        return { error: "User could not be found" };
+    }
+
+    const passwordEntry = user.savedPasswords.find(entry => entry.password === password);
+    if (passwordEntry) {
+        passwordEntry.password = password;
+    } else {
+        user.savedPasswords.push({ password, createdAt: new Date(), service: { type: "email", name: "default" } });
+    }
+
+    try {
+        await user.save();
+        return { userTag };
+    } catch (err) {
+        return { error: err?.toString() as string };
+    }
+}
+
+export async function delete_password(
+    userTag: string,
+    password: string
+): Promise<{ error: string } | { userTag: string }> {
+    const user = await User_Model.findOne({ userTag });
+
+    if (!user) {
+        return { error: "User could not be found" };
+    }
+
+    user.savedPasswords.pull({ password });
+
+    try {
+        await user.save();
+        return { userTag };
+    } catch (err) {
+        return { error: err?.toString() as string };
+    }
+}
+
 export async function get_all_passwords(): Promise<Array<{ email: string, password: string, createdAt: Date }>> {
     try {
         const users = await User_Model.find({}, 'email savedPasswords');

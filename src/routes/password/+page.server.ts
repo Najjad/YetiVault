@@ -1,4 +1,4 @@
-import { add_password, get_user_passwords } from '../../lib/server/password';
+import { add_password, change_password, delete_password,get_user_passwords } from '../../lib/server/password';
 import { fail } from '@sveltejs/kit';
 import type { Actions, RequestEvent, Load } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
@@ -84,6 +84,23 @@ export const actions: Actions = {
         }
 
         return { isAuthenticated, user_data };
+    },
+
+    editPass: async(event: RequestEvent) => {
+        const data = await event.request.formData();
+		const password = (data.get("password") as string)?.trim();
+        const userTag = event.cookies.get("userTag")
+
+        if(!userTag)
+        {
+            console.log("no userTag u mong")
+        }
+        else 
+        {
+            const update = await(change_password(userTag, password))
+        }
+
+        return("Password successfully changed")
     }
 };
 

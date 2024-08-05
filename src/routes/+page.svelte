@@ -5,19 +5,6 @@
 </svelte:head>
 
 <style>
-    html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-        background: linear-gradient(to right, #d0e6f0, #b4c8d8);
-        color: #333;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
     header {
         background: #1f2a38;
         color: #fff;
@@ -120,5 +107,5 @@
 </main>
 
 <footer>
-    <p>Check out the code on our <a href="https://github.com/Najjad/YetiVault" target="_blank">GitHub</a>.</p>
+    <p>Check out the code on <a href="https://github.com/Najjad/YetiVault" target="_blank">GitHub</a>.</p>
 </footer>

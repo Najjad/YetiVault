@@ -100,3 +100,28 @@ export function verify_name(name: string): string {
 
     return "";
 }
+
+export async function change_password(userTag: string, newPassword: string): Promise<{ error: string }> {
+    const password_error = verify_password(newPassword);
+
+    if (password_error) {
+        return { error: password_error };
+    }
+
+    const salt_rounds = 10;
+    const hashed_password = await bcrypt.hash(newPassword, salt_rounds);
+
+    try {
+        const user = await User_Model.findOne({ userTag });
+
+        if (!user) {
+            return { error: "User not found." };
+        }
+
+        user.password = hashed_password;
+        await user.save();
+        return { error: "" };
+    } catch (err) {
+        return { error: err?.toString() as string };
+    }
+}

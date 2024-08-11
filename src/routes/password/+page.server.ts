@@ -88,7 +88,7 @@ export const actions: Actions = {
 
     editPass: async(event: RequestEvent) => {
         const data = await event.request.formData();
-		const password = (data.get("password") as string)?.trim();
+		const password = (data.get("passwordChange") as string)?.trim();
         const userTag = event.cookies.get("userTag")
 
         if(!userTag)
@@ -101,6 +101,25 @@ export const actions: Actions = {
         }
 
         return("Password successfully changed")
+    },
+
+    deletePass: async(event: RequestEvent) => {
+        const data = await event.request.formData();
+		const password = (data.get("passwordChange") as string)?.trim(); //same data for editPass, leave as passwordChange
+        const userTag = event.cookies.get("userTag")
+
+        if(!userTag)
+        {
+            console.log("no userTag u mong")
+        }
+        else 
+        {
+            const update = await delete_password(userTag, password);
+            return "deleted password successfully"
+        }
+
+        return "password was not deleted"
+        
     }
 };
 

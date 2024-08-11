@@ -150,18 +150,26 @@
 
     <h2>Saved Passwords</h2>
     {#each data.passwords as password, index}
-    <div class="password-item">
-        <label>
-            {#if password.service.type === 'website' && password.favicon}
-                <img src={password.favicon} alt="Favicon" class="favicon">
-            {/if}
-            {password.service.name} ({password.service.type})
-        </label>
-        <input type={passwordsVisibility[index] ? "password" : "text"} value={password.password} readonly>
-        <button type="button" on:click={() => togglePasswordVisibility(index)}>
-            {passwordsVisibility[index] ? "Show" : "Hide"}
-        </button>
-    </div>
+        <div class="password-item">
+            <label>
+                {#if password.service.type === 'website' && password.favicon}
+                    <img src={password.favicon} alt="Favicon" class="favicon">
+                {/if}
+                {password.service.name} ({password.service.type})
+    
+                <form action="?/deletePass" method="POST" use:enhance>
+                    <input type="hidden" name="passwordChange" value={password.password}>
+    
+                    <button type="submit">
+                        <p>Delete Password</p>
+                    </button>
+                </form>
+            </label>
+            <input type={passwordsVisibility[index] ? "password" : "text"} value={password.password} id="passwordChange" name="passwordChange">
+            <button type="button" on:click={() => togglePasswordVisibility(index)}>
+                {passwordsVisibility[index] ? "Show" : "Hide"}
+            </button>
+        </div>
     {/each}
     {/if}
 </main>

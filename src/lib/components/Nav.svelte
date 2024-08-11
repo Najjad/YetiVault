@@ -68,18 +68,6 @@
 		position: relative; /* Added relative positioning for logo-container */
 	}
 
-	.logo-container {
-		position: absolute;
-		top: 0.1rem; /* Adjusted top position */
-		left: 1rem; /* Adjusted left position */
-	}
-
-	.logo-container img {
-		width: 150px; /* Adjust this size as needed */
-		height: auto;
-		border-radius: 50%;
-	}
-
 	ul {
 		list-style-type: none;
 		display: flex;

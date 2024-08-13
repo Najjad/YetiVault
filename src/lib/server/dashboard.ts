@@ -80,3 +80,18 @@ export async function dateChecker(userTag: string): Promise<any> {
         return { error };
     }
 }
+
+export async function breachCheck(email: string): Promise<any> {
+    const apiUrl = `https://leakcheck.io/api/public?check=` + email;
+
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching data from LeakCheck API:', error);
+        throw new Error('Failed to fetch data from LeakCheck API');
+    }
+}

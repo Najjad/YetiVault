@@ -85,36 +85,42 @@
     </form>
 
     {#if showBreachInfo}
-    <div class="breach-alert">
-        <h2>Your email has appeared in a data breach!</h2>
-        <p>Please look below and confirm your email is safe on these sites:</p>
-        <ul class="breach-list">
-            {#each form?.breachData.sources as source}
-                <li>
-                    <img src={source.favicon} alt="favicon" class="favicon" />
-                    <strong>{source.name}</strong> - <em>{new Date(source.date).toLocaleDateString()}</em>
-                </li>
-            {/each}
-        </ul>
-        <h2>These data fields have been compromised:</h2>
-        <ul class="compromised-fields">
-            {#each form?.breachData.fields as field}
-                <li>{field}</li>
-            {/each}
-        </ul>
+        {#if form !== undefined}
+            {#if form.breachData?.sources?.length > 0}
+            <div class="breach-alert">
+                <h2>Your email has appeared in a data breach!</h2>
+                <p>Please look below and confirm your email is safe on these sites:</p>
+                <ul class="breach-list">
+                    {#each form.breachData.sources as source}
+                        <li>
+                            <img src={source.favicon} alt="favicon" class="favicon" />
+                            <strong>{source.name}</strong> - <em>{new Date(source.date).toLocaleDateString()}</em>
+                        </li>
+                    {/each}
+                </ul>
+                <h2>These data fields have been compromised:</h2>
+                <ul class="compromised-fields">
+                    {#each form.breachData.fields as field}
+                        <li>{field}</li>
+                    {/each}
+                </ul>
+                
+                <h2>What exactly does this mean, and what can you do?</h2>
+                <p>Data breaches can happen for various reasons, often as a result of harmless data scraping. While this can be annoying, it isn't the end of the world.</p>
+                <p>Some breaches might have occurred many years ago, and your information could have been changed since then.</p>
+                <p>Your best course of action is to change your password on sites where the breach is recent and not related to scraping.</p>
+                <p>The compromised fields shown above tell you what information was leaked.</p>
 
-        <h2>What exactly does this mean, and what can you do?</h2>
-        <p>Data breaches can happen for various reasons, often as a result of harmless data scraping. While this can be annoying, it isn't the end of the world.</p>
-        <p>Some breaches might have occurred many years ago, and your information could have been changed since then.</p>
-        <p>Your best course of action is to change your password on sites where the breach is recent and not related to scraping.</p>
-        <p>The compromised fields shown above tell you what information was leaked.</p>
-
-        <button class="ignore-button" on:click={ignoreBreachInfo}>Ignore</button>
-    </div>
-    {:else if showBreachInfo == false}
-        <h2>Your email has not appeared in a known data breach, you're safe for now    ;)</h2>
+                <button class="ignore-button" on:click={ignoreBreachInfo}>Ignore</button>
+            </div>
+            {:else}
+                <h2>Your email has not appeared in a known data breach, you're safe for now ;)</h2>
+            {/if}
+        {/if}
     {/if}
 </div>
+
+
 
 <style>
     .pass-date-check {

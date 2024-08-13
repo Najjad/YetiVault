@@ -1,39 +1,43 @@
+# 🏔️ YetiVault - The Ultimate Password Vault
 
-# YetiVault - Password Managing Solution
+Welcome to YetiVault, the best of password managers! Whether you’re guarding treasure or just your personal login details, its got you covered. This project is my Computer Science HL Internal Assessment.
 
-Hello and welcome to the amazing YetiVault password manager!
+## 🚀 Features Currently Roaming the Snowy Peaks
 
-This is my Computer Science HL Internal Assesment
+- **Register/Login Auth:** Start your journey with secure authentication.
+- **Manage Passwords:** Add, edit, or delete your passwords with ease.
+- **Fun Mascot:** Meet our friendly Yeti—he’s here to help!
+- **Dynamic User Tokens:** Enjoy secure logins with dynamic tokens.
+- **Dashboard:** Includes a password generator, email health check, and password health checker.
+- **NUKE Button:** In case of a Yeti-sized emergency, this button ensures no unwanted intruders!
 
-When completed, I plan to turn this project into a legitimate service
+## 🌟 Coming Soon to the Frosty Peaks
 
-## Features implemented NOW
+- **Encrypted Passwords:** Supercharge security with encrypted password storage.
+- **Enhanced UI:** A sleeker, cooler user interface to make managing your passwords even more enjoyable.
 
-- Register/Login auth.
-- Add passwords
-- Fun mascot
-- Dynamic user token for login
+## 🛠️ Tech Stack & Tools
 
+The cool toolkit to power YetiVault:
 
-## Features for the future
+- **Node.js (v18.20.2):** The runtime environment for building scalable applications.
+- **SvelteKit:** Framework for building fast, modern web applications.
+- **Vite:** Lightning-fast build tool for a smooth development experience.
+- **Prettier & ESLint:** Keeping our code neat and error-free.
+- **TypeScript:** Adding type safety to our JavaScript.
+- **MongoDB Atlas:** Scalable cloud database to securely store your data.
+- **bcrypt & jsonwebtoken:** For hashing passwords and managing secure tokens.
 
-- Encrypted password saving
-- edit, delete saved passwords
-- Dashboard with HaveIBeenPwned API
-- UI
+## 📝 To Do List
 
-## To Do
+- [ ] **🔐 Encrypt All Data:** Ensure all user data is encrypted for top-notch security.
+- [ ] **UI Enhancements:** Make the interface as cool as the Yeti himself!
 
-- [ ] **🔒 Lock Password Screen with Masterpass**  
-  Add a feature to lock the password screen securely with a master password.
+## 🎨 Project Logo
 
-- [ ] **✏️ Edit and Delete Passwords**  
-  Implement the ability to edit and delete passwords for better management.
+![YetiVault Logo](https://raw.githubusercontent.com/Najjad/YetiVault/main/static/YETIVAULTLOGO.png)
 
-- [ ] **📊 Dashboard with Password Health Check**  
-  Create a dashboard to check if your passwords are compromised.
+Feel free to dive into the code and contribute to making YetiVault the best password manager out there. If you have any questions or suggestions, don't hesitate to reach out. Keep your secrets safe, and enjoy the adventure with YetiVault!
 
-- [ ] **🔐 Encrypt All Data**  
-  Ensure all user data is encrypted for maximum security.
-![Logo](https://raw.githubusercontent.com/Najjad/YetiVault/main/static/YETIVAULTLOGO.png)
-
+---
+Happy password managing! 🐾

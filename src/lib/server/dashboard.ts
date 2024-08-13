@@ -1,5 +1,4 @@
 import { User_Model } from "./models";
-import axios from 'axios';
 
 class Node {
     data: any;
@@ -79,17 +78,5 @@ export async function dateChecker(userTag: string): Promise<any> {
         return oldPasswords;
     } catch (error) {
         return { error };
-    }
-}
-
-export async function breachCheck(email: string): Promise<any> {
-    const apiUrl = `https://leakcheck.io/api/public?check=` + email;
-
-    try {
-        const response = await axios.get(apiUrl);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching data from LeakCheck API:', error);
-        throw new Error('Failed to fetch data from LeakCheck API');
     }
 }

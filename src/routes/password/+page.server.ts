@@ -88,7 +88,8 @@ export const actions: Actions = {
 
     editPass: async(event: RequestEvent) => {
         const data = await event.request.formData();
-		const password = (data.get("passwordChange") as string)?.trim();
+		const newPassword = (data.get("passwordChange") as string)?.trim();
+        const password = (data.get("passwordOld") as string)?.trim();
         const userTag = event.cookies.get("userTag")
 
         if(!userTag)
@@ -97,7 +98,7 @@ export const actions: Actions = {
         }
         else 
         {
-            const update = await(change_password(userTag, password))
+            const update = await(change_password(userTag, password, newPassword))
         }
 
         return("Password successfully changed")

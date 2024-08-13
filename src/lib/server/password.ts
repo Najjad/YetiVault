@@ -24,7 +24,8 @@ export async function add_password(
 
 export async function change_password(
     userTag: string,
-    password: string
+    password: string,
+    newPassword: string
 ): Promise<{ error: string } | { userTag: string }> {
     const user = await User_Model.findOne({ userTag });
 
@@ -34,7 +35,7 @@ export async function change_password(
 
     const passwordEntry = user.savedPasswords.find(entry => entry.password === password);
     if (passwordEntry) {
-        passwordEntry.password = password;
+        passwordEntry.password = newPassword;
     } else {
         user.savedPasswords.push({ password, createdAt: new Date(), service: { type: "email", name: "default" } });
     }

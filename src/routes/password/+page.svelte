@@ -52,9 +52,19 @@
 
     let passwordsVisibility = data.passwords.map(() => true);
 
+    let showEdit = new Array(data.passwords.length).fill(false);
+    
+    function toggleEditVisibility(index: number) {
+        showEdit[index] = !showEdit[index];
+    }
+
     function togglePasswordVisibility(index: number) {
         passwordsVisibility[index] = !passwordsVisibility[index];
     }
+
+    function hideEditForm(index: any) {
+    showEdit[index] = false;
+}
 </script>
 
 
@@ -80,6 +90,15 @@
     }
     .favicon {
         margin-right: 5px;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    .password-item {
+        margin-bottom: 20px;
     }
 </style>
 
@@ -149,27 +168,43 @@
     {/if}
 
     <h2>Saved Passwords</h2>
-    {#each data.passwords as password, index}
-        <div class="password-item">
-            <label>
-                {#if password.service.type === 'website' && password.favicon}
-                    <img src={password.favicon} alt="Favicon" class="favicon">
-                {/if}
-                {password.service.name} ({password.service.type})
-    
-                <form action="?/deletePass" method="POST" use:enhance>
-                    <input type="hidden" name="passwordChange" value={password.password}>
-    
-                    <button type="submit">
-                        <p>Delete Password</p>
-                    </button>
-                </form>
-            </label>
-            <input type={passwordsVisibility[index] ? "password" : "text"} value={password.password} id="passwordChange" name="passwordChange">
-            <button type="button" on:click={() => togglePasswordVisibility(index)}>
-                {passwordsVisibility[index] ? "Show" : "Hide"}
+{#each data.passwords as password, index}
+    <div class="password-item">
+        <label>
+            {#if password.service.type === 'website' && password.favicon}
+                <img src={password.favicon} alt="Favicon" class="favicon">
+            {/if}
+            {password.service.name} ({password.service.type})
+        </label>
+
+        <div class="button-group">
+            <form action="?/deletePass" method="POST" use:enhance>
+                <input type="hidden" name="passwordChange" value={password.password}>
+                <button type="submit">
+                    <p>Delete Password</p>
+                </button>
+            </form>
+
+            <button type="button" on:click={() => toggleEditVisibility(index)}>
+                <p>Edit Password</p>
             </button>
         </div>
+
+        {#if showEdit[index]}
+        <form action="?/editPass" method="POST" use:enhance on:submit={() => hideEditForm(index)}>
+            <input type="text" name="passwordChange" value={password.password}>
+            <input type="hidden" name="passwordOld" value={password.password}>
+            <button type="submit">
+                <p>Save Changes</p>
+            </button>
+        </form>
+        {/if}
+
+        <input type={passwordsVisibility[index] ? "password" : "text"} value={password.password} id="passwordChange" name="passwordChange">
+        <button type="button" on:click={() => togglePasswordVisibility(index)}>
+            {passwordsVisibility[index] ? "Show" : "Hide"}
+        </button>
+    </div>
     {/each}
     {/if}
 </main>

@@ -16,7 +16,14 @@
         margin: 0 auto;
         padding: 1rem;
         width: 100%;
-        max-width: 100vw;
+        max-width: 800px; /* Restrict the width of the main container */
         box-sizing: border-box; /* Ensures padding is included in width */
+    }
+
+    /* Optional: Add responsive design to handle smaller screens */
+    @media (max-width: 768px) {
+        main {
+            max-width: 90%; /* Make the container responsive */
+        }
     }
 </style>

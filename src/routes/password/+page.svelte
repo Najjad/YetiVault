@@ -65,6 +65,10 @@
     function hideEditForm(index: any) {
     showEdit[index] = false;
 }
+
+$: if (form?.isAuthenticated) {
+        toggleVisible();
+    }
 </script>
 
 
@@ -111,9 +115,7 @@
         </div>
     </form>
     {/if}
-    {#if form?.isAuthenticated}
-	 {toggleVisible()}
-    {/if}
+
 
     {#if visible}
     <h1>Password Management</h1>
@@ -139,7 +141,7 @@
         {/if}
         {#if email_check}
         <div>
-            <label for="email">Email</label>
+            <label for="email">Enter Email</label>
             <input type="email" id="email" name="email" bind:value={email} required>
         </div>
         {/if}
@@ -149,10 +151,6 @@
             <input type="text" id="app" name="app" bind:value={app} required>
         </div>
         {/if}
-        <div>
-            <label for="description">Password Description (what is the password for?)</label>
-            <input type="text" id="description" name="description" bind:value={description} required>
-        </div>
         <div>
             <label for="password">Enter Password</label>
             <input type="password" id="password" name="password" bind:value={password} required>

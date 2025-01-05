@@ -16,7 +16,7 @@
   
 	const handleConfirmationSubmit = (event: any) => {
 	  event.preventDefault();
-	  if (confirmationText === "NUKE") {
+	  if (confirmationText === "SECURE") {
 		showPasswordInput = true;
 	  }
 	};
@@ -69,16 +69,16 @@
 	<form class="form-container" action="?/NUKE" method="POST" use:enhance>
 	  <input type="hidden" name="confirmation" value={confirmationText} />
 	  <input type="password" name="new_password" bind:value={newPassword} placeholder="Enter new password" required />
-	  <button class="nuke-button" type="submit">Confirm Nuke</button>
+	  <button class="nuke-button" type="submit">Confirm Account Secure</button>
 	</form>
   {:else if showTextInput}
 	<form class="form-container" on:submit|preventDefault={handleConfirmationSubmit}>
-	  <input type="text" name="confirmation" bind:value={confirmationText} placeholder="Type 'NUKE' to confirm" required />
+	  <input type="text" name="confirmation" bind:value={confirmationText} placeholder="Type 'SECURE' to confirm" required />
 	  <button class="nuke-button" type="submit">Confirm</button>
 	</form>
   {:else}
 	<div class="form-container">
-	  <button class="nuke-button" type="button" on:click={handleNukeClick}>Nuke</button>
+	  <button class="nuke-button" type="button" on:click={handleNukeClick}>SECURE ACCOUNT</button>
 	</div>
   {/if}
   

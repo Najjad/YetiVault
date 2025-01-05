@@ -243,7 +243,7 @@
         border-radius: 4px;
         cursor: pointer;
         position: absolute;
-        bottom: 1rem;
+        bottom: -3rem;
         right: 1rem;
     }
     .ignore-button:hover {
